@@ -43,7 +43,7 @@ namespace Pasco_Inventory_Management_Systems
         private void btnlogin_Click(object sender, EventArgs e)
         {
             //Check login username & Password
-            SqlConnection con = new SqlConnection("Data Source=SVMAIN\\EMSDATABASE;Initial Catalog=Stock;Integrated Security=True");
+            SqlConnection con = Connection.GetConnection();
             SqlDataAdapter sda = new SqlDataAdapter(@"SELECT [Username] ,[Password]
             FROM [dbo].[Login] WHERE Username='"+txtuser.Text+"' and Password='"+txtpass.Text+"'", con);
             DataTable dt = new DataTable();

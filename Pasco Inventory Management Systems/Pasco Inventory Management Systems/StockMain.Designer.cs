@@ -66,6 +66,7 @@
             this.stockToolStripMenuItem.Name = "stockToolStripMenuItem";
             this.stockToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.stockToolStripMenuItem.Text = "Stock";
+            this.stockToolStripMenuItem.Click += new System.EventHandler(this.stockToolStripMenuItem_Click);
             // 
             // reportToolStripMenuItem
             // 
@@ -79,14 +80,16 @@
             // productListToolStripMenuItem
             // 
             this.productListToolStripMenuItem.Name = "productListToolStripMenuItem";
-            this.productListToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.productListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.productListToolStripMenuItem.Text = "Product List";
+            this.productListToolStripMenuItem.Click += new System.EventHandler(this.productListToolStripMenuItem_Click);
             // 
             // stockListToolStripMenuItem
             // 
             this.stockListToolStripMenuItem.Name = "stockListToolStripMenuItem";
-            this.stockListToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.stockListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.stockListToolStripMenuItem.Text = "Stock List";
+            this.stockListToolStripMenuItem.Click += new System.EventHandler(this.stockListToolStripMenuItem_Click);
             // 
             // statusStrip
             // 

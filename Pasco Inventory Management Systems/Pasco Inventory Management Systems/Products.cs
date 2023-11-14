@@ -28,37 +28,41 @@ namespace Pasco_Inventory_Management_Systems
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Data Source=SVMAIN\\EMSDATABASE;Initial Catalog=Stock;Integrated Security=True");
-            //Insert Logic
-            con.Open();
+            if (Validation())
+            {
+                SqlConnection con = Connection.GetConnection();
+                con.Open();
 
-            bool status = false;
-            if (cbstatus.SelectedIndex == 0)
-            {
-                status = true;
-            }
-            else
-            {
-                status = false;
-            }
+                bool status = false;
+                if (cbstatus.SelectedIndex == 0)
+                {
+                    status = true;
+                }
+                else
+                {
+                    status = false;
+                }
 
-            var sqlQuery = "";
-            if (IfProductExists(con, txtproductcode.Text))
-            {
-                sqlQuery = @"UPDATE [Products] SET [ProductName] = '" + txtproductname.Text + "' ,[ProductStatus] = '" + status + "' WHERE [ProductCode] = '" + txtproductcode.Text + "'";
-            }
-            else
-            {
-                sqlQuery = "@INSERT INTO [dbo].[Products]([ProductCode],[ProductName],[ProductStatus]) VALUES    ('" + txtproductcode.Text + "','" + txtproductname.Text + "','" + status + "')";
-            }
-         
-            
-            SqlCommand cmd = new SqlCommand(sqlQuery ,con);
+                var sqlQuery = "";
+                if (IfProductExists(con, txtproductcode.Text))
+                {
+                    sqlQuery = @"UPDATE [Products] SET [ProductName] = '" + txtproductname.Text + "' ,[ProductStatus] = '" + status + "' WHERE [ProductCode] = '" + txtproductcode.Text + "'";
+                }
+                else
+                {
+                    sqlQuery = @"INSERT INTO [dbo].[Products]([ProductCode],[ProductName],[ProductStatus]) VALUES    ('" + txtproductcode.Text + "','" + txtproductname.Text + "','" + status + "')";
+                }
+
+
+                SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 cmd.ExecuteNonQuery();
-            con.Close();
+                con.Close();
 
-            //Reading Data
-            LoadData();
+                //Reading Data
+                LoadData();
+                ResetRecords();
+
+            }
 
 
         }
@@ -77,7 +81,7 @@ namespace Pasco_Inventory_Management_Systems
 
         public void LoadData()
         {
-            SqlConnection con = new SqlConnection("Data Source=SVMAIN\\EMSDATABASE;Initial Catalog=Stock;Integrated Security=True");
+            SqlConnection con = Connection.GetConnection();
             SqlDataAdapter sda = new SqlDataAdapter("SELECT * FROM [Stock].[dbo].[Products]", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -103,6 +107,7 @@ namespace Pasco_Inventory_Management_Systems
 
         private void dataGridView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            btnAdd.Text = "Update";
             txtproductcode.Text = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
             txtproductname.Text = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
             if (dataGridView1.SelectedRows[0].Cells[2].Value.ToString() == "Active")
@@ -117,23 +122,51 @@ namespace Pasco_Inventory_Management_Systems
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Data Source=SVMAIN\\EMSDATABASE;Initial Catalog=Stock;Integrated Security=True");
-            var sqlQuery = "";
-
-            if (IfProductExists(con, txtproductcode.Text))
+            if (Validation())
             {
-                con.Open();
-                sqlQuery = @"DELETE FROM [Products] WHERE [ProductCode] = '" + txtproductcode.Text + "'";
-                SqlCommand cmd = new SqlCommand(sqlQuery, con);
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
-            else
-            {
-                MessageBox.Show("Record Not Exist...!");
-            }
+                SqlConnection con = Connection.GetConnection();
+                var sqlQuery = "";
 
-            LoadData();
+                if (IfProductExists(con, txtproductcode.Text))
+                {
+                    con.Open();
+                    sqlQuery = @"DELETE FROM [Products] WHERE [ProductCode] = '" + txtproductcode.Text + "'";
+                    SqlCommand cmd = new SqlCommand(sqlQuery, con);
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Record Not Exist...!");
+                }
+
+                LoadData();
+                ResetRecords();
+            }
+        }
+
+        private void ResetRecords() 
+        {
+            txtproductcode.Clear();
+            txtproductname.Clear();
+            cbstatus.SelectedIndex = -1;
+            btnAdd.Text = "Add";
+            txtproductcode.Focus();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ResetRecords();
+        }
+
+        private bool Validation()
+        {
+            bool result = false;
+            if(!string.IsNullOrEmpty(txtproductcode.Text) && !string.IsNullOrEmpty(txtproductname.Text) && cbstatus.SelectedIndex >-1)
+            {
+                result = true;
+            }
+            return result;
         }
     }
 }

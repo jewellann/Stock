@@ -22,12 +22,49 @@ namespace Pasco_Inventory_Management_Systems
         {
             Products pro = new Products();
             pro.MdiParent = this;
+            pro.StartPosition = FormStartPosition.CenterScreen;
             pro.Show();
         }
-
+        bool close = true;
         private void StockMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            if (close)
+            {
+                DialogResult result = MessageBox.Show("Are You Sure You Want To Exit?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    close = false;
+                    Application.Exit();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        private void stockToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Stock stock = new Stock();
+            stock.MdiParent = this;
+            stock.StartPosition = FormStartPosition.CenterScreen;
+            stock.Show();
+        }
+
+        private void productListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReportForm.ProductsReport prod = new ReportForm.ProductsReport();
+            prod.MdiParent = this;
+            prod.StartPosition = FormStartPosition.CenterScreen;
+            prod.Show();
+        }
+
+        private void stockListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReportForm.StockReport prod = new ReportForm.StockReport();
+            prod.MdiParent = this;
+            prod.StartPosition = FormStartPosition.CenterScreen;
+            prod.Show();
         }
     }
 }

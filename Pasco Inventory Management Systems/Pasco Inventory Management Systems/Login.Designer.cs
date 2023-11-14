@@ -63,6 +63,7 @@
             this.txtuser.Name = "txtuser";
             this.txtuser.Size = new System.Drawing.Size(221, 20);
             this.txtuser.TabIndex = 2;
+            this.txtuser.Text = "admin";
             // 
             // txtpass
             // 
@@ -70,6 +71,7 @@
             this.txtpass.Name = "txtpass";
             this.txtpass.Size = new System.Drawing.Size(221, 20);
             this.txtpass.TabIndex = 3;
+            this.txtpass.Text = "pasco123";
             this.txtpass.UseSystemPasswordChar = true;
             // 
             // btnclear
@@ -116,6 +118,7 @@
             this.Controls.Add(this.lblpass);
             this.Controls.Add(this.lbluser);
             this.Name = "Login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
